@@ -2,14 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.mth.json-kt</groupId>
+  <groupId>org.mth</groupId>
   <artifactId>json-kt</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
 
   <modules>
     <module>com.eclipsesource.json</module>
-<!--    <module>com.eclipsesource.json.performancetest</module>-->
     <module>minimal-json-kt</module>
   </modules>
 
@@ -29,8 +28,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>11</source>
+          <target>11</target>
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
@@ -42,7 +41,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <Automatic-Module-Name>com.eclipsesource.json</Automatic-Module-Name>
+              <Automatic-Module-Name>json-kt</Automatic-Module-Name>
             </manifestEntries>
             <manifest>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>

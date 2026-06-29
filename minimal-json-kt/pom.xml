@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.mth.json-kt</groupId>
+        <groupId>org.mth</groupId>
         <artifactId>json-kt</artifactId>
         <version>1.0.0</version>
     </parent>
