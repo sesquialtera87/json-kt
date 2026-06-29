@@ -4,7 +4,7 @@
 
   <groupId>com.eclipsesource.minimal-json</groupId>
   <artifactId>minimal-json</artifactId>
-  <version>0.9.6-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
   <name>minimal-json</name>
   <description>A Minimal JSON Parser and Writer</description>
@@ -39,6 +39,9 @@
         <version>3.4.1</version>
         <configuration>
           <archive>
+            <manifestEntries>
+              <Automatic-Module-Name>com.eclipsesource.json</Automatic-Module-Name>
+            </manifestEntries>
             <manifest>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
