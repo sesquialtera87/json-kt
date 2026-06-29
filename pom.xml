@@ -9,7 +9,7 @@
 
   <modules>
     <module>com.eclipsesource.json</module>
-    <module>com.eclipsesource.json.performancetest</module>
+<!--    <module>com.eclipsesource.json.performancetest</module>-->
     <module>minimal-json-kt</module>
   </modules>
 
