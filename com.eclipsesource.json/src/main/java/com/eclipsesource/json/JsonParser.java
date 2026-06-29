@@ -376,21 +376,20 @@ public class JsonParser {
     handler.endNumber(endCapture());
   }
 
-  private boolean readFraction() throws IOException {
+  private void readFraction() throws IOException {
     if (!readChar('.')) {
-      return false;
+      return;
     }
     if (!readDigit()) {
       throw expected("digit");
     }
     while (readDigit()) {
     }
-    return true;
   }
 
-  private boolean readExponent() throws IOException {
+  private void readExponent() throws IOException {
     if (!readChar('e') && !readChar('E')) {
-      return false;
+      return;
     }
     if (!readChar('+')) {
       readChar('-');
@@ -400,7 +399,6 @@ public class JsonParser {
     }
     while (readDigit()) {
     }
-    return true;
   }
 
   private boolean readChar(char ch) throws IOException {

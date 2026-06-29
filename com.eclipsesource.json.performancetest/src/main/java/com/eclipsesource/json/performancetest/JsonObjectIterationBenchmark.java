@@ -49,8 +49,8 @@ public class JsonObjectIterationBenchmark extends SimpleBenchmark {
   public void timeIterateMembers(int reps) {
     for (int r = 0; r < reps; r++) {
       for (Member member : jsonObject) {
-        String name = member.getName();
-        JsonValue value = member.getValue();
+        String name = member.name;
+        JsonValue value = member.value;
         checkResult(name, value);
       }
     }
