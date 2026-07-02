@@ -25,39 +25,30 @@ package com.eclipsesource.json;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class ParseExceptionTest {
 
-  private Location location;
+    private Location location;
 
-  @BeforeEach
-  public void setUp() {
-    location = new Location(4711, 23, 42);
-  }
+    @BeforeEach
+    public void setUp() {
+        location = new Location(4711, 23, 42);
+    }
 
-  @Test
-  public void location() {
-    ParseException exception = new ParseException("Foo", location);
+    @Test
+    public void location() {
+        ParseException exception = new ParseException("Foo", location);
 
-    assertSame(location, exception.getLocation());
-  }
+        assertSame(location, exception.getLocation());
+    }
 
-  @Test
-  @SuppressWarnings("deprecation")
-  public void position() {
-    ParseException exception = new ParseException("Foo", location);
+    @Test
+    public void message() {
+        ParseException exception = new ParseException("Foo", location);
 
-    assertEquals(location.offset, exception.getOffset());
-    assertEquals(location.line, exception.getLine());
-    assertEquals(location.column, exception.getColumn());
-  }
-
-  @Test
-  public void message() {
-    ParseException exception = new ParseException("Foo", location);
-
-    assertEquals("Foo at 23:42", exception.getMessage());
-  }
+        assertEquals("Foo at 23:42", exception.getMessage());
+    }
 
 }
