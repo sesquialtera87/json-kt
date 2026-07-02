@@ -144,7 +144,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON object
      */
     public JsonObject asObject() {
-        throw new UnsupportedOperationException("Not an object: " + toString());
+        throw new UnsupportedOperationException("Not an object: " + this);
     }
 
     /**
@@ -155,7 +155,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON array
      */
     public JsonArray asArray() {
-        throw new UnsupportedOperationException("Not an array: " + toString());
+        throw new UnsupportedOperationException("Not an array: " + this);
     }
 
     /**
@@ -172,7 +172,7 @@ public abstract class JsonValue implements Serializable {
      * @throws NumberFormatException         if this JSON number can not be interpreted as <code>int</code> value
      */
     public int asInt() {
-        throw new UnsupportedOperationException("Not a number: " + toString());
+        throw new UnsupportedOperationException("Not a number: " + this);
     }
 
     /**
@@ -189,7 +189,7 @@ public abstract class JsonValue implements Serializable {
      * @throws NumberFormatException         if this JSON number can not be interpreted as <code>long</code> value
      */
     public long asLong() {
-        throw new UnsupportedOperationException("Not a number: " + toString());
+        throw new UnsupportedOperationException("Not a number: " + this);
     }
 
     /**
@@ -204,7 +204,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON number
      */
     public float asFloat() {
-        throw new UnsupportedOperationException("Not a number: " + toString());
+        throw new UnsupportedOperationException("Not a number: " + this);
     }
 
     /**
@@ -219,7 +219,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON number
      */
     public double asDouble() {
-        throw new UnsupportedOperationException("Not a number: " + toString());
+        throw new UnsupportedOperationException("Not a number: " + this);
     }
 
     /**
@@ -230,7 +230,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON string
      */
     public String asString() {
-        throw new UnsupportedOperationException("Not a string: " + toString());
+        throw new UnsupportedOperationException("Not a string: " + this);
     }
 
     /**
@@ -241,7 +241,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is neither <code>true</code> or <code>false</code>
      */
     public boolean asBoolean() {
-        throw new UnsupportedOperationException("Not a boolean: " + toString());
+        throw new UnsupportedOperationException("Not a boolean: " + this);
     }
 
     /**
