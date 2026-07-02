@@ -24,6 +24,7 @@ package com.eclipsesource.json;
 import com.eclipsesource.json.JsonObject.HashIndexTable;
 import com.eclipsesource.json.JsonObject.Member;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 
@@ -32,6 +33,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import static com.eclipsesource.json.TestUtil.assertException;
 import static com.eclipsesource.json.TestUtil.serializeAndDeserialize;
@@ -1066,5 +1068,63 @@ public class JsonObjectTest {
             object.add(namesAndValues[i], namesAndValues[i + 1]);
         }
         return object;
+    }
+
+    @Nested
+    class StreamSupportTest {
+        JsonObject object;
+
+        @BeforeEach
+        void setUp() {
+            object = new JsonObject()
+                    .add("tabSize", 4)
+                    .add("autoSave", true)
+                    .add("theme", "dark");
+        }
+
+        @Test
+        public void stream_ShouldProcessAllMembersSequentially() {
+            var members = object.stream().collect(Collectors.toList());
+
+            assertEquals(3, members.size());
+            assertEquals("tabSize", members.get(0).getName());
+            assertEquals(4, members.get(0).getValue().asInt());
+            assertFalse(object.stream().isParallel(), "Stream should be sequential");
+        }
+
+        @Test
+        public void stream_ShouldAllowFilteringByKeys() {
+            var filteredKeys = object.stream()
+                    .map(JsonObject.Member::getName)
+                    .filter(name -> name.startsWith("auto"))
+                    .collect(Collectors.toList());
+
+            assertEquals(1, filteredKeys.size());
+            assertEquals("autoSave", filteredKeys.get(0));
+        }
+
+        @Test
+        public void stream_ShouldCollectToMap() {
+            var map = object.stream()
+                    .collect(Collectors.toMap(JsonObject.Member::getName, JsonObject.Member::getValue));
+
+            assertEquals(3, map.size());
+            assertTrue(map.get("autoSave").asBoolean());
+            assertEquals("dark", map.get("theme").asString());
+        }
+
+        @Test
+        public void parallelStream_ShouldBeParallel() {
+            assertTrue(object.parallelStream().isParallel(), "Stream should be parallel");
+
+            long count = object.parallelStream().count();
+            assertEquals(3, count);
+        }
+
+        @Test
+        public void stream_OnEmptyObject_ShouldBeEmpty() {
+            JsonObject emptyObject = new JsonObject();
+            assertEquals(0, emptyObject.stream().count());
+        }
     }
 }
