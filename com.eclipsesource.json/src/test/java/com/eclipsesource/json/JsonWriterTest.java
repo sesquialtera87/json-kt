@@ -21,21 +21,22 @@
  ******************************************************************************/
 package com.eclipsesource.json;
 
-import static org.junit.Assert.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class JsonWriter_Test {
+public class JsonWriterTest {
 
   private StringWriter output;
   private JsonWriter writer;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     output = new StringWriter();
     writer = new JsonWriter(output);

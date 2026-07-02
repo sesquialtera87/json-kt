@@ -21,18 +21,17 @@
  ******************************************************************************/
 package com.eclipsesource.json;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ParseException_Test {
+public class ParseExceptionTest {
 
   private Location location;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     location = new Location(4711, 23, 42);
   }
