@@ -22,7 +22,6 @@
 package com.eclipsesource.json;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -69,7 +68,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * Creates a new empty JsonArray.
      */
     public JsonArray() {
-        values = new ArrayList<JsonValue>();
+        values = new ArrayList<>();
     }
 
     /**
@@ -380,7 +379,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
     @Override
     public Iterator<JsonValue> iterator() {
         final Iterator<JsonValue> iterator = values.iterator();
-        return new Iterator<JsonValue>() {
+        return new Iterator<>() {
 
             public boolean hasNext() {
                 return iterator.hasNext();

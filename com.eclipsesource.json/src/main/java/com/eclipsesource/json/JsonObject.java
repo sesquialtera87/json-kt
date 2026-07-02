@@ -657,7 +657,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
     public Iterator<Member> iterator() {
         final Iterator<String> namesIterator = names.iterator();
         final Iterator<JsonValue> valuesIterator = values.iterator();
-        return new Iterator<Member>() {
+        return new Iterator<>() {
 
             public boolean hasNext() {
                 return namesIterator.hasNext();
