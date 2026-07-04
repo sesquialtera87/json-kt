@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package org.mth.json
 
 import com.eclipsesource.json.Json
@@ -29,28 +31,56 @@ inline fun jsonArray(init: JsonArrayBuilder.() -> Unit): JsonArray {
  * A builder class implementing the Domain-Specific Language (DSL) for declarative [JsonObject] construction.
  */
 class JsonObjectBuilder {
-    private val jsonObject = JsonObject()
+    val jsonObject = JsonObject()
+
+    inline fun <reified T> add(name: String, value: T) {
+        when (T::class) {
+            String::class -> jsonObject.add(name, value as String)
+            Int::class -> jsonObject.add(name, value as Int)
+            Long::class -> jsonObject.add(name, value as Long)
+            Float::class -> jsonObject.add(name, value as Float)
+            Double::class -> jsonObject.add(name, value as Double)
+            Boolean::class -> jsonObject.add(name, value as Boolean)
+            JsonObject::class -> jsonObject.add(name, value as JsonObject)
+            JsonArray::class -> jsonObject.add(name, value as JsonArray)
+            else -> throw IllegalArgumentException("Unsupported type ${T::class}")
+        }
+    }
 
     /** Associates a [String] key with an [Int] value. */
-    infix fun String.to(value: Int) { jsonObject.add(this, value) }
+    infix fun String.to(value: Int) {
+        jsonObject.add(this, value)
+    }
 
     /** Associates a [String] key with a [Long] value. */
-    infix fun String.to(value: Long) { jsonObject.add(this, value) }
+    infix fun String.to(value: Long) {
+        jsonObject.add(this, value)
+    }
 
     /** Associates a [String] key with a [Float] value. */
-    infix fun String.to(value: Float) { jsonObject.add(this, value) }
+    infix fun String.to(value: Float) {
+        jsonObject.add(this, value)
+    }
 
     /** Associates a [String] key with a [Double] value. */
-    infix fun String.to(value: Double) { jsonObject.add(this, value) }
+    infix fun String.to(value: Double) {
+        jsonObject.add(this, value)
+    }
 
     /** Associates a [String] key with a [Boolean] value. */
-    infix fun String.to(value: Boolean) { jsonObject.add(this, value) }
+    infix fun String.to(value: Boolean) {
+        jsonObject.add(this, value)
+    }
 
     /** Associates a [String] key with a nullable [String] value. */
-    infix fun String.to(value: String?) { jsonObject.add(this, value) }
+    infix fun String.to(value: String?) {
+        jsonObject.add(this, value)
+    }
 
     /** Associates a [String] key with an existing [JsonValue]. */
-    infix fun String.to(value: JsonValue) { jsonObject.add(this, value) }
+    infix fun String.to(value: JsonValue) {
+        jsonObject.add(this, value)
+    }
 
     /**
      * Declares a nested [JsonObject] member inside this object using infix syntax.
@@ -85,25 +115,39 @@ class JsonArrayBuilder {
     val jsonArray = JsonArray()
 
     /** Appends an [Int] value to the array. */
-    fun add(value: Int) { jsonArray.add(value) }
+    fun add(value: Int) {
+        jsonArray.add(value)
+    }
 
     /** Appends a [Long] value to the array. */
-    fun add(value: Long) { jsonArray.add(value) }
+    fun add(value: Long) {
+        jsonArray.add(value)
+    }
 
     /** Appends a [Float] value to the array. */
-    fun add(value: Float) { jsonArray.add(value) }
+    fun add(value: Float) {
+        jsonArray.add(value)
+    }
 
     /** Appends a [Double] value to the array. */
-    fun add(value: Double) { jsonArray.add(value) }
+    fun add(value: Double) {
+        jsonArray.add(value)
+    }
 
     /** Appends a [Boolean] value to the array. */
-    fun add(value: Boolean) { jsonArray.add(value) }
+    fun add(value: Boolean) {
+        jsonArray.add(value)
+    }
 
     /** Appends a nullable [String] value to the array. */
-    fun add(value: String?) { jsonArray.add(value) }
+    fun add(value: String?) {
+        jsonArray.add(value)
+    }
 
     /** Appends an existing [JsonValue] to the array. */
-    fun add(value: JsonValue) { jsonArray.add(value) }
+    fun add(value: JsonValue) {
+        jsonArray.add(value)
+    }
 
     /**
      * Appends a nested [JsonObject] element to this array.
@@ -148,25 +192,39 @@ operator fun JsonObject.get(name: String): JsonValue? {
 }
 
 /** Sets or overwrites a member with an [Int] value using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: Int) { this.set(name, Json.value(value)) }
+operator fun JsonObject.set(name: String, value: Int) {
+    this.set(name, Json.value(value))
+}
 
 /** Sets or overwrites a member with a [Long] value using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: Long) { this.set(name, Json.value(value)) }
+operator fun JsonObject.set(name: String, value: Long) {
+    this.set(name, Json.value(value))
+}
 
 /** Sets or overwrites a member with a [Float] value using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: Float) { this.set(name, Json.value(value)) }
+operator fun JsonObject.set(name: String, value: Float) {
+    this.set(name, Json.value(value))
+}
 
 /** Sets or overwrites a member with a [Double] value using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: Double) { this.set(name, Json.value(value)) }
+operator fun JsonObject.set(name: String, value: Double) {
+    this.set(name, Json.value(value))
+}
 
 /** Sets or overwrites a member with a [Boolean] value using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: Boolean) { this.set(name, Json.value(value)) }
+operator fun JsonObject.set(name: String, value: Boolean) {
+    this.set(name, Json.value(value))
+}
 
 /** Sets or overwrites a member with a nullable [String] value using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: String?) { this.set(name, Json.value(value)) }
+operator fun JsonObject.set(name: String, value: String?) {
+    this.set(name, Json.value(value))
+}
 
 /** Sets or overwrites a member with an existing [JsonValue] using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: JsonValue) { this.set(name, value) }
+operator fun JsonObject.set(name: String, value: JsonValue) {
+    this.set(name, value)
+}
 
 // --- JsonArray Operators ---
 
@@ -180,25 +238,39 @@ operator fun JsonObject.set(name: String, value: JsonValue) { this.set(name, val
 operator fun JsonArray.get(index: Int): JsonValue = this.get(index)
 
 /** Replaces the element at the specified position in this array with an [Int] value. */
-operator fun JsonArray.set(index: Int, value: Int) { this.set(index, Json.value(value)) }
+operator fun JsonArray.set(index: Int, value: Int) {
+    this.set(index, Json.value(value))
+}
 
 /** Replaces the element at the specified position in this array with a [Long] value. */
-operator fun JsonArray.set(index: Int, value: Long) { this.set(index, Json.value(value)) }
+operator fun JsonArray.set(index: Int, value: Long) {
+    this.set(index, Json.value(value))
+}
 
 /** Replaces the element at the specified position in this array with a [Float] value. */
-operator fun JsonArray.set(index: Int, value: Float) { this.set(index, Json.value(value)) }
+operator fun JsonArray.set(index: Int, value: Float) {
+    this.set(index, Json.value(value))
+}
 
 /** Replaces the element at the specified position in this array with a [Double] value. */
-operator fun JsonArray.set(index: Int, value: Double) { this.set(index, Json.value(value)) }
+operator fun JsonArray.set(index: Int, value: Double) {
+    this.set(index, Json.value(value))
+}
 
 /** Replaces the element at the specified position in this array with a [Boolean] value. */
-operator fun JsonArray.set(index: Int, value: Boolean) { this.set(index, Json.value(value)) }
+operator fun JsonArray.set(index: Int, value: Boolean) {
+    this.set(index, Json.value(value))
+}
 
 /** Replaces the element at the specified position in this array with a nullable [String] value. */
-operator fun JsonArray.set(index: Int, value: String?) { this.set(index, Json.value(value)) }
+operator fun JsonArray.set(index: Int, value: String?) {
+    this.set(index, Json.value(value))
+}
 
 /** Replaces the element at the specified position in this array with another [JsonValue]. */
-operator fun JsonArray.set(index: Int, value: JsonValue) { this.set(index, value) }
+operator fun JsonArray.set(index: Int, value: JsonValue) {
+    this.set(index, value)
+}
 
 // --- Destructuring Operations ---
 
