@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -371,6 +372,87 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
     }
 
     /**
+     * Returns an <b>unmodifiable</b> {@link List} containing the string representations
+     * of the elements in this JSON array.
+     * <p>
+     * In Kotlin, this is exposed as the synthetic property {@code toStringList}.
+     *
+     * @return an unmodifiable {@link List} of the string values in this array
+     * @throws UnsupportedOperationException if any element in the array is not a JSON string
+     * @see List#copyOf(java.util.Collection)
+     */
+    public List<String> toStringList() {
+        return values.stream()
+                .map(JsonValue::asString)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    /**
+     * Returns an <b>unmodifiable</b> {@link List} containing the integer values
+     * of the elements in this JSON array.
+     * <p>
+     * In Kotlin, this is exposed as the synthetic property {@code toIntList}.
+     *
+     * @return an unmodifiable {@link List} of the {@link Integer} values in this array
+     * @throws UnsupportedOperationException if any element in the array is not a JSON number
+     * @see List#copyOf(java.util.Collection)
+     */
+    public List<Integer> toIntList() {
+        return values.stream()
+                .map(JsonValue::asInt)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    /**
+     * Returns an <b>unmodifiable</b> {@link List} containing the double-precision floating-point
+     * values of the elements in this JSON array.
+     * <p>
+     * In Kotlin, this is exposed as the synthetic property {@code toDoubleList}.
+     *
+     * @return an unmodifiable {@link List} of the {@link Double} values in this array
+     * @throws UnsupportedOperationException if any element in the array is not a JSON number
+     * @see List#copyOf(java.util.Collection)
+     */
+    public List<Double> toDoubleList() {
+        return values.stream()
+                .map(JsonValue::asDouble)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    /**
+     * Returns an <b>unmodifiable</b> {@link List} containing the single-precision floating-point
+     * values of the elements in this JSON array.
+     * <p>
+     * In Kotlin, this is exposed as the synthetic property {@code toFloatList}.
+     *
+     * @return an unmodifiable {@link List} of the {@link Float} values in this array
+     * @throws UnsupportedOperationException if any element in the array is not a JSON number
+     * @see List#copyOf(java.util.Collection)
+     */
+    public List<Float> toFloatList() {
+        return values.stream()
+                .map(JsonValue::asFloat)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    /**
+     * Returns an <b>unmodifiable</b> {@link List} containing the boolean values
+     * of the elements in this JSON array.
+     * <p>
+     * In Kotlin, this is exposed as the synthetic property {@code toBooleanList}.
+     *
+     * @return an unmodifiable {@link List} of the {@link Boolean} values in this array
+     * @throws UnsupportedOperationException if any element in the array is not a JSON boolean
+     * @see List#copyOf(java.util.Collection)
+     */
+    public List<Boolean> toBooleanList() {
+        return values.stream()
+                .map(JsonValue::asBoolean)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+
+    /**
      * Returns an iterator over the values of this array in document order. The returned iterator
      * cannot be used to modify this array.
      *
@@ -450,5 +532,4 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
         JsonArray other = (JsonArray) object;
         return values.equals(other.values);
     }
-
 }

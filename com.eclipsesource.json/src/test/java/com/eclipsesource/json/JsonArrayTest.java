@@ -685,4 +685,88 @@ public class JsonArrayTest {
         JsonArray emptyArray = new JsonArray();
         assertEquals(0, emptyArray.stream().count());
     }
+
+    @Test
+    void toStringList_ShouldReturnValidList() {
+        var array = new JsonArray().add("score1.ly").add("score2.ly");
+        List<String> list = array.toStringList();
+
+        assertEquals(2, list.size());
+        assertEquals("score1.ly", list.get(0));
+        assertEquals("score2.ly", list.get(1));
+    }
+
+    @Test
+    void toIntList_ShouldReturnValidList() {
+        var array = new JsonArray().add(42).add(-10);
+        List<Integer> list = array.toIntList();
+
+        assertEquals(2, list.size());
+        assertEquals(42, list.get(0));
+        assertEquals(-10, list.get(1));
+    }
+
+    @Test
+    void toDoubleList_ShouldReturnValidList() {
+        var array = new JsonArray().add(3.14).add(2.71);
+        List<Double> list = array.toDoubleList();
+
+        assertEquals(2, list.size());
+        assertEquals(3.14, list.get(0));
+        assertEquals(2.71, list.get(1));
+    }
+
+    @Test
+    void toFloatList_ShouldReturnValidList() {
+        var array = new JsonArray().add(1.5f).add(0.0f);
+        List<Float> list = array.toFloatList();
+
+        assertEquals(2, list.size());
+        assertEquals(1.5f, list.get(0));
+        assertEquals(0.0f, list.get(1));
+    }
+
+    @Test
+    void toBooleanList_ShouldReturnValidList() {
+        var array = new JsonArray().add(true).add(false);
+        List<Boolean> list = array.toBooleanList();
+
+        assertEquals(2, list.size());
+        assertTrue(list.get(0));
+        assertFalse(list.get(1));
+    }
+
+    @Test
+    void lists_ShouldBeUnmodifiable() {
+        var array = new JsonArray().add("item");
+        List<String> list = array.toStringList();
+
+        // Verifica che la lista sia strutturalmente immutabile
+        assertThrows(UnsupportedOperationException.class, () -> list.add("new-item"),
+                "Should throw UnsupportedOperationException when trying to modify the list");
+
+        assertThrows(UnsupportedOperationException.class, () -> list.remove(0),
+                "Should throw UnsupportedOperationException when trying to remove elements");
+    }
+
+    @Test
+    void toList_ShouldThrowOnTypeMismatch() {
+        // Un array misto contenente una stringa e un intero
+        var mixedArray = new JsonArray().add(100).add("not-an-int");
+
+        // Deve fallire immediatamente quando tenta di mappare la stringa a intero
+        assertThrows(UnsupportedOperationException.class, mixedArray::toIntList,
+                "Should throw UnsupportedOperationException on type mismatch");
+    }
+
+    @Test
+    void toList_OnEmptyArray_ShouldReturnEmptyList() {
+        var emptyArray = new JsonArray();
+
+        List<String> list = emptyArray.toStringList();
+        assertTrue(list.isEmpty());
+
+        // Anche se vuota, deve rimanere non modificabile
+        assertThrows(UnsupportedOperationException.class, () -> list.add("test"));
+    }
 }
