@@ -187,13 +187,13 @@ operator fun JsonObject.Member.component2(): JsonValue = this.value
 /**
  * Attempts to safely cast or extract a [JsonValue] into the target primitive or structural type [T].
  *
- * If the literal evaluates to a JSON `null`, or if the requested type mismatch fails structural conversion,
- * this extension function will catch the exception and gracefully return `null`.
+ * Returns `null` if the receiver is `null` (e.g. a missing member), if it is a JSON `null` literal, if its JSON
+ * type does not match [T], or if a JSON number cannot be represented as [T] (e.g. `1.5` or `3000000000` as [Int]).
  *
  * @return The mapped type representation of type [T], or `null` if conversion fails or if the value is null.
  */
-inline fun <reified T> JsonValue.asTypeOrNull(): T? {
-    if (this.isNull) return null
+inline fun <reified T> JsonValue?.asTypeOrNull(): T? {
+    if (this == null || this.isNull) return null
     return try {
         when (T::class) {
             String::class -> this.asString() as T
@@ -207,6 +207,8 @@ inline fun <reified T> JsonValue.asTypeOrNull(): T? {
             else -> null
         }
     } catch (_: UnsupportedOperationException) {
+        null
+    } catch (_: NumberFormatException) {
         null
     }
 }
