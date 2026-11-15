@@ -2,6 +2,7 @@
 
 package org.mth.json
 
+import com.eclipsesource.json.Json
 import com.eclipsesource.json.JsonArray
 import com.eclipsesource.json.JsonObject
 import com.eclipsesource.json.JsonValue
@@ -12,6 +13,36 @@ import com.eclipsesource.json.JsonValue
  */
 @DslMarker
 annotation class JsonDsl
+
+/**
+ * Converts this value to a [JsonValue].
+ *
+ * Supported: `null` (JSON `null`), [JsonValue] (returned as is), [String], [Boolean], [Int], [Short], [Byte], [Long],
+ * [Float], [Double], [Enum] (its name), [Map] with [String] keys, [Iterable], [Array] and [Sequence] (JSON array).
+ *
+ * @throws IllegalArgumentException for any other type, or for a [Map] with a non-[String] key.
+ */
+fun Any?.toJsonValue(): JsonValue = when (this) {
+    null -> Json.NULL
+    is JsonValue -> this
+    is String -> Json.value(this)
+    is Boolean -> Json.value(this)
+    is Int, is Short, is Byte -> Json.value((this as Number).toInt())
+    is Long -> Json.value(this)
+    is Float -> Json.value(this)
+    is Double -> Json.value(this)
+    is Enum<*> -> Json.value(name)
+    is Map<*, *> -> JsonObject().also { json ->
+        for ((key, value) in this) {
+            require(key is String) { "JSON object keys must be strings, got: $key" }
+            json.add(key, value.toJsonValue())
+        }
+    }
+    is Iterable<*> -> JsonArray().also { json -> for (element in this) json.add(element.toJsonValue()) }
+    is Array<*> -> asList().toJsonValue()
+    is Sequence<*> -> asIterable().toJsonValue()
+    else -> throw IllegalArgumentException("Type not representable as JSON: ${this::class}")
+}
 
 /**
  * Creates a new [JsonObject] using a declarative DSL syntax.
@@ -41,53 +72,20 @@ class JsonObjectBuilder {
     @PublishedApi
     internal val jsonObject = JsonObject()
 
-    inline fun <reified T> add(name: String, value: T) {
-        when (T::class) {
-            String::class -> jsonObject.add(name, value as String)
-            Int::class -> jsonObject.add(name, value as Int)
-            Long::class -> jsonObject.add(name, value as Long)
-            Float::class -> jsonObject.add(name, value as Float)
-            Double::class -> jsonObject.add(name, value as Double)
-            Boolean::class -> jsonObject.add(name, value as Boolean)
-            JsonObject::class -> jsonObject.add(name, value as JsonObject)
-            JsonArray::class -> jsonObject.add(name, value as JsonArray)
-            else -> throw IllegalArgumentException("Unsupported type ${T::class}")
-        }
+    /**
+     * Appends a member named [name], converting [value] with [toJsonValue].
+     *
+     * Like [JsonObject.add], this does not check for duplicate names: adding the same name twice produces two members.
+     *
+     * @throws IllegalArgumentException if [value] cannot be represented as JSON.
+     */
+    fun add(name: String, value: Any?) {
+        jsonObject.add(name, value.toJsonValue())
     }
 
-    /** Associates a [String] key with an [Int] value. */
-    infix fun String.to(value: Int) {
-        jsonObject.add(this, value)
-    }
-
-    /** Associates a [String] key with a [Long] value. */
-    infix fun String.to(value: Long) {
-        jsonObject.add(this, value)
-    }
-
-    /** Associates a [String] key with a [Float] value. */
-    infix fun String.to(value: Float) {
-        jsonObject.add(this, value)
-    }
-
-    /** Associates a [String] key with a [Double] value. */
-    infix fun String.to(value: Double) {
-        jsonObject.add(this, value)
-    }
-
-    /** Associates a [String] key with a [Boolean] value. */
-    infix fun String.to(value: Boolean) {
-        jsonObject.add(this, value)
-    }
-
-    /** Associates a [String] key with a nullable [String] value. */
-    infix fun String.to(value: String?) {
-        jsonObject.add(this, value)
-    }
-
-    /** Associates a [String] key with an existing [JsonValue]. */
-    infix fun String.to(value: JsonValue) {
-        jsonObject.add(this, value)
+    /** Appends a member named by this [String], see [add]. */
+    infix fun String.to(value: Any?) {
+        add(this, value)
     }
 
     /**
