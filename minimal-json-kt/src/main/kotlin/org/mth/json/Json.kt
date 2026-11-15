@@ -40,6 +40,7 @@ fun Any?.toJsonValue(): JsonValue = when (this) {
             json.add(key, value.toJsonValue())
         }
     }
+
     is Iterable<*> -> JsonArray().also { json -> for (element in this) json.add(element.toJsonValue()) }
     is Array<*> -> asList().toJsonValue()
     is Sequence<*> -> asIterable().toJsonValue()
@@ -234,5 +235,6 @@ inline fun <reified T> JsonValue?.asTypeOrNull(): T? = when (T::class) {
     BigInteger::class -> bigIntegerOrNull()
     JsonObject::class -> objectOrNull()
     JsonArray::class -> arrayOrNull()
+    JsonValue::class -> this
     else -> throw IllegalArgumentException("Unsupported type ${T::class.java.name}")
 } as T?
