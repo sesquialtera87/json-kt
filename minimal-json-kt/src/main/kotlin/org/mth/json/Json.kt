@@ -6,6 +6,8 @@ import com.eclipsesource.json.Json
 import com.eclipsesource.json.JsonArray
 import com.eclipsesource.json.JsonObject
 import com.eclipsesource.json.JsonValue
+import java.math.BigDecimal
+import java.math.BigInteger
 
 /**
  * Marks the JSON builders as members of the same DSL: inside a nested block, the members of an enclosing
@@ -165,33 +167,71 @@ operator fun JsonObject.Member.component1(): String = this.name
 /** Destructuring component operator providing the member underlying [JsonValue]. */
 operator fun JsonObject.Member.component2(): JsonValue = this.value
 
+// --- Null-safe Accessors ---
+
+/*
+ * Each accessor returns `null` if the receiver is `null` (e.g. a missing member), if it is a JSON `null` literal,
+ * or if its JSON type does not match. Numeric accessors are strict: the literal must be representable in the target
+ * type, so `1.5`, `1.0` or `1e3` are `null` as [Int] and `3000000000` is `null` as [Int] but valid as [Long].
+ * [BigDecimal] and [BigInteger] read the literal exactly, without rounding.
+ */
+
+/** Returns this value as a [String] if it is a JSON string, `null` otherwise. */
+fun JsonValue?.stringOrNull(): String? = if (this != null && isString) asString() else null
+
+/** Returns this value as a [Boolean] if it is a JSON boolean, `null` otherwise. */
+fun JsonValue?.booleanOrNull(): Boolean? = if (this != null && isBoolean) asBoolean() else null
+
+/** Returns this value as an [Int] if it is a JSON number that fits, `null` otherwise. */
+fun JsonValue?.intOrNull(): Int? = numberLiteral()?.toIntOrNull()
+
+/** Returns this value as a [Long] if it is a JSON number that fits, `null` otherwise. */
+fun JsonValue?.longOrNull(): Long? = numberLiteral()?.toLongOrNull()
+
+/** Returns this value as a [Float] if it is a JSON number, `null` otherwise. */
+fun JsonValue?.floatOrNull(): Float? = numberLiteral()?.toFloatOrNull()
+
+/** Returns this value as a [Double] if it is a JSON number, `null` otherwise. */
+fun JsonValue?.doubleOrNull(): Double? = numberLiteral()?.toDoubleOrNull()
+
+/** Returns this value as an exact [BigDecimal] if it is a JSON number, `null` otherwise. */
+fun JsonValue?.bigDecimalOrNull(): BigDecimal? = numberLiteral()?.toBigDecimalOrNull()
+
+/** Returns this value as an exact [BigInteger] if it is a JSON integer literal, `null` otherwise. */
+fun JsonValue?.bigIntegerOrNull(): BigInteger? = numberLiteral()?.toBigIntegerOrNull()
+
+/** Returns this value as a [JsonObject] if it is a JSON object, `null` otherwise. */
+fun JsonValue?.objectOrNull(): JsonObject? = if (this != null && isObject) asObject() else null
+
+/** Returns this value as a [JsonArray] if it is a JSON array, `null` otherwise. */
+fun JsonValue?.arrayOrNull(): JsonArray? = if (this != null && isArray) asArray() else null
+
+/** The literal text of a JSON number, or `null` if this is not a JSON number. */
+private fun JsonValue?.numberLiteral(): String? = if (this != null && isNumber) toString() else null
+
 // --- Reified Type Smart Casts ---
 
 /**
  * Attempts to safely cast or extract a [JsonValue] into the target primitive or structural type [T].
+ *
+ * Supported types are [String], [Int], [Long], [Float], [Double], [Boolean], [BigDecimal], [BigInteger], [JsonObject]
+ * and [JsonArray]; see the corresponding `xxxOrNull` accessors. Any other type yields `null`.
  *
  * Returns `null` if the receiver is `null` (e.g. a missing member), if it is a JSON `null` literal, if its JSON
  * type does not match [T], or if a JSON number cannot be represented as [T] (e.g. `1.5` or `3000000000` as [Int]).
  *
  * @return The mapped type representation of type [T], or `null` if conversion fails or if the value is null.
  */
-inline fun <reified T> JsonValue?.asTypeOrNull(): T? {
-    if (this == null || this.isNull) return null
-    return try {
-        when (T::class) {
-            String::class -> this.asString() as T
-            Int::class -> this.asInt() as T
-            Long::class -> this.asLong() as T
-            Float::class -> this.asFloat() as T
-            Double::class -> this.asDouble() as T
-            Boolean::class -> this.asBoolean() as T
-            JsonObject::class -> this.asObject() as T
-            JsonArray::class -> this.asArray() as T
-            else -> null
-        }
-    } catch (_: UnsupportedOperationException) {
-        null
-    } catch (_: NumberFormatException) {
-        null
-    }
-}
+inline fun <reified T> JsonValue?.asTypeOrNull(): T? = when (T::class) {
+    String::class -> stringOrNull()
+    Int::class -> intOrNull()
+    Long::class -> longOrNull()
+    Float::class -> floatOrNull()
+    Double::class -> doubleOrNull()
+    Boolean::class -> booleanOrNull()
+    BigDecimal::class -> bigDecimalOrNull()
+    BigInteger::class -> bigIntegerOrNull()
+    JsonObject::class -> objectOrNull()
+    JsonArray::class -> arrayOrNull()
+    else -> null
+} as T?
