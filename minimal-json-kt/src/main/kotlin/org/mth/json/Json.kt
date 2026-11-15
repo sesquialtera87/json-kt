@@ -122,39 +122,13 @@ class JsonArrayBuilder {
     @PublishedApi
     internal val jsonArray = JsonArray()
 
-    /** Appends an [Int] value to the array. */
-    fun add(value: Int) {
-        jsonArray.add(value)
-    }
-
-    /** Appends a [Long] value to the array. */
-    fun add(value: Long) {
-        jsonArray.add(value)
-    }
-
-    /** Appends a [Float] value to the array. */
-    fun add(value: Float) {
-        jsonArray.add(value)
-    }
-
-    /** Appends a [Double] value to the array. */
-    fun add(value: Double) {
-        jsonArray.add(value)
-    }
-
-    /** Appends a [Boolean] value to the array. */
-    fun add(value: Boolean) {
-        jsonArray.add(value)
-    }
-
-    /** Appends a nullable [String] value to the array. */
-    fun add(value: String?) {
-        jsonArray.add(value)
-    }
-
-    /** Appends an existing [JsonValue] to the array. */
-    fun add(value: JsonValue) {
-        jsonArray.add(value)
+    /**
+     * Appends [value] to the array, converting it with [toJsonValue].
+     *
+     * @throws IllegalArgumentException if [value] cannot be represented as JSON.
+     */
+    fun add(value: Any?) {
+        jsonArray.add(value.toJsonValue())
     }
 
     /**
