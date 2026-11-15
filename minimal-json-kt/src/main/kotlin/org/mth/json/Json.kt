@@ -2,7 +2,6 @@
 
 package org.mth.json
 
-import com.eclipsesource.json.Json
 import com.eclipsesource.json.JsonArray
 import com.eclipsesource.json.JsonObject
 import com.eclipsesource.json.JsonValue
@@ -173,103 +172,6 @@ class JsonArrayBuilder {
      * @return The underlying [JsonArray].
      */
     fun build(): JsonArray = jsonArray
-}
-
-// =========================================================================
-// EXTENSION OPERATORS & TYPE CONVERSIONS
-// =========================================================================
-
-// --- JsonObject Operators ---
-
-/**
- * Allows array-like getter safe access to a member value using indexing syntax (`jsonObject["key"]`).
- *
- * @param name The name string of the member to look up.
- * @return The corresponding [JsonValue], or `null` if the member name is missing.
- */
-operator fun JsonObject.get(name: String): JsonValue? {
-    return this.get(name)
-}
-
-/** Sets or overwrites a member with an [Int] value using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: Int) {
-    this.set(name, Json.value(value))
-}
-
-/** Sets or overwrites a member with a [Long] value using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: Long) {
-    this.set(name, Json.value(value))
-}
-
-/** Sets or overwrites a member with a [Float] value using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: Float) {
-    this.set(name, Json.value(value))
-}
-
-/** Sets or overwrites a member with a [Double] value using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: Double) {
-    this.set(name, Json.value(value))
-}
-
-/** Sets or overwrites a member with a [Boolean] value using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: Boolean) {
-    this.set(name, Json.value(value))
-}
-
-/** Sets or overwrites a member with a nullable [String] value using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: String?) {
-    this.set(name, Json.value(value))
-}
-
-/** Sets or overwrites a member with an existing [JsonValue] using indexing syntax (`jsonObject["key"] = value`). */
-operator fun JsonObject.set(name: String, value: JsonValue) {
-    this.set(name, value)
-}
-
-// --- JsonArray Operators ---
-
-/**
- * Accesses an element at the specified position within the [JsonArray] using index syntax (`jsonArray[index]`).
- *
- * @param index The zero-based index of the element to return.
- * @return The [JsonValue] found at the given index.
- * @throws IndexOutOfBoundsException If the index is out of bounds.
- */
-operator fun JsonArray.get(index: Int): JsonValue = this.get(index)
-
-/** Replaces the element at the specified position in this array with an [Int] value. */
-operator fun JsonArray.set(index: Int, value: Int) {
-    this.set(index, Json.value(value))
-}
-
-/** Replaces the element at the specified position in this array with a [Long] value. */
-operator fun JsonArray.set(index: Int, value: Long) {
-    this.set(index, Json.value(value))
-}
-
-/** Replaces the element at the specified position in this array with a [Float] value. */
-operator fun JsonArray.set(index: Int, value: Float) {
-    this.set(index, Json.value(value))
-}
-
-/** Replaces the element at the specified position in this array with a [Double] value. */
-operator fun JsonArray.set(index: Int, value: Double) {
-    this.set(index, Json.value(value))
-}
-
-/** Replaces the element at the specified position in this array with a [Boolean] value. */
-operator fun JsonArray.set(index: Int, value: Boolean) {
-    this.set(index, Json.value(value))
-}
-
-/** Replaces the element at the specified position in this array with a nullable [String] value. */
-operator fun JsonArray.set(index: Int, value: String?) {
-    this.set(index, Json.value(value))
-}
-
-/** Replaces the element at the specified position in this array with another [JsonValue]. */
-operator fun JsonArray.set(index: Int, value: JsonValue) {
-    this.set(index, value)
 }
 
 // --- Destructuring Operations ---
