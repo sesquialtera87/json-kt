@@ -210,6 +210,28 @@ fun JsonValue?.arrayOrNull(): JsonArray? = if (this != null && isArray) asArray(
 /** The literal text of a JSON number, or `null` if this is not a JSON number. */
 private fun JsonValue?.numberLiteral(): String? = if (this != null && isNumber) toString() else null
 
+// --- Null-safe Navigation ---
+
+/**
+ * Returns the member named [name] if this value is a JSON object that has it, `null` otherwise.
+ *
+ * Together with the `Int` overload this allows chained access such as `root["a"]["b"][0]`, where any missing or
+ * mismatching step yields `null` instead of an exception.
+ *
+ * Only applies when the static type of the receiver is [JsonValue] or nullable: on a non-null [JsonObject] the
+ * member `get` is used instead.
+ */
+operator fun JsonValue?.get(name: String): JsonValue? = objectOrNull()?.get(name)
+
+/**
+ * Returns the element at [index] if this value is a JSON array and the index is in range, `null` otherwise.
+ *
+ * Only applies when the static type of the receiver is [JsonValue] or nullable: on a non-null [JsonArray] the
+ * member `get` is used instead, which throws [IndexOutOfBoundsException] for an invalid index.
+ */
+operator fun JsonValue?.get(index: Int): JsonValue? =
+    arrayOrNull()?.let { if (index in 0 until it.size()) it.get(index) else null }
+
 // --- Reified Type Smart Casts ---
 
 /**
