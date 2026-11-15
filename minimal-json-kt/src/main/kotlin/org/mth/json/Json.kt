@@ -7,6 +7,13 @@ import com.eclipsesource.json.JsonObject
 import com.eclipsesource.json.JsonValue
 
 /**
+ * Marks the JSON builders as members of the same DSL: inside a nested block, the members of an enclosing
+ * builder can no longer be called implicitly.
+ */
+@DslMarker
+annotation class JsonDsl
+
+/**
  * Creates a new [JsonObject] using a declarative DSL syntax.
  *
  * @param init A lambda with receiver block initialization on [JsonObjectBuilder].
@@ -29,8 +36,10 @@ inline fun jsonArray(init: JsonArrayBuilder.() -> Unit): JsonArray {
 /**
  * A builder class implementing the Domain-Specific Language (DSL) for declarative [JsonObject] construction.
  */
+@JsonDsl
 class JsonObjectBuilder {
-    val jsonObject = JsonObject()
+    @PublishedApi
+    internal val jsonObject = JsonObject()
 
     inline fun <reified T> add(name: String, value: T) {
         when (T::class) {
@@ -110,8 +119,10 @@ class JsonObjectBuilder {
 /**
  * A builder class implementing the Domain-Specific Language (DSL) for declarative [JsonArray] construction.
  */
+@JsonDsl
 class JsonArrayBuilder {
-    val jsonArray = JsonArray()
+    @PublishedApi
+    internal val jsonArray = JsonArray()
 
     /** Appends an [Int] value to the array. */
     fun add(value: Int) {
