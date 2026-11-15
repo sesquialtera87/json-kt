@@ -215,12 +215,13 @@ private fun JsonValue?.numberLiteral(): String? = if (this != null && isNumber) 
  * Attempts to safely cast or extract a [JsonValue] into the target primitive or structural type [T].
  *
  * Supported types are [String], [Int], [Long], [Float], [Double], [Boolean], [BigDecimal], [BigInteger], [JsonObject]
- * and [JsonArray]; see the corresponding `xxxOrNull` accessors. Any other type yields `null`.
+ * and [JsonArray]; see the corresponding `xxxOrNull` accessors.
  *
  * Returns `null` if the receiver is `null` (e.g. a missing member), if it is a JSON `null` literal, if its JSON
  * type does not match [T], or if a JSON number cannot be represented as [T] (e.g. `1.5` or `3000000000` as [Int]).
  *
  * @return The mapped type representation of type [T], or `null` if conversion fails or if the value is null.
+ * @throws IllegalArgumentException if [T] is not a supported type, whatever the value is.
  */
 inline fun <reified T> JsonValue?.asTypeOrNull(): T? = when (T::class) {
     String::class -> stringOrNull()
@@ -233,5 +234,5 @@ inline fun <reified T> JsonValue?.asTypeOrNull(): T? = when (T::class) {
     BigInteger::class -> bigIntegerOrNull()
     JsonObject::class -> objectOrNull()
     JsonArray::class -> arrayOrNull()
-    else -> null
+    else -> throw IllegalArgumentException("Unsupported type ${T::class.java.name}")
 } as T?
