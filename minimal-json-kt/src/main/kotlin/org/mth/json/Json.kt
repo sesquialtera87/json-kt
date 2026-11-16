@@ -68,6 +68,45 @@ inline fun jsonArray(init: JsonArrayBuilder.() -> Unit): JsonArray {
 }
 
 /**
+ * Creates a new [JsonObject] from the given name/value [pairs], converting each value with [toJsonValue].
+ *
+ * Like [JsonObject.add], duplicate names are not merged: they produce one member per pair, in order.
+ *
+ * @throws IllegalArgumentException if a value cannot be represented as JSON.
+ */
+fun jsonObjectOf(vararg pairs: Pair<String, Any?>): JsonObject {
+    val json = JsonObject()
+    for ((name, value) in pairs) json.add(name, value.toJsonValue())
+    return json
+}
+
+/**
+ * Creates a new [JsonArray] from the given [values], converting each one with [toJsonValue].
+ *
+ * @throws IllegalArgumentException if a value cannot be represented as JSON.
+ */
+fun jsonArrayOf(vararg values: Any?): JsonArray {
+    val json = JsonArray()
+    for (value in values) json.add(value.toJsonValue())
+    return json
+}
+
+/**
+ * Converts this map to a [JsonObject], converting each value with [toJsonValue]. Members follow the iteration order
+ * of the map.
+ *
+ * @throws IllegalArgumentException if a value cannot be represented as JSON.
+ */
+fun Map<String, *>.toJsonObject(): JsonObject = toJsonValue().asObject()
+
+/**
+ * Converts this iterable to a [JsonArray], converting each element with [toJsonValue].
+ *
+ * @throws IllegalArgumentException if an element cannot be represented as JSON.
+ */
+fun Iterable<*>.toJsonArray(): JsonArray = toJsonValue().asArray()
+
+/**
  * A builder class implementing the Domain-Specific Language (DSL) for declarative [JsonObject] construction.
  */
 @JsonDsl
