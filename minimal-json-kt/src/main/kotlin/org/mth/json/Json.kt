@@ -207,6 +207,30 @@ operator fun JsonObject.Member.component1(): String = this.name
 /** Destructuring component operator providing the member underlying [JsonValue]. */
 operator fun JsonObject.Member.component2(): JsonValue = this.value
 
+// --- Append Operators ---
+
+/**
+ * Appends a member to this object: `json += "name" to value`.
+ *
+ * The value is converted with [toJsonValue]. Like [JsonObject.add], duplicate names are not merged.
+ *
+ * @throws IllegalArgumentException if the value cannot be represented as JSON.
+ */
+operator fun JsonObject.plusAssign(entry: Pair<String, Any?>) {
+    add(entry.first, entry.second.toJsonValue())
+}
+
+/**
+ * Appends an element to this array: `json += value`.
+ *
+ * The value is converted with [toJsonValue], so an [Iterable] is appended as a single nested array.
+ *
+ * @throws IllegalArgumentException if the value cannot be represented as JSON.
+ */
+operator fun JsonArray.plusAssign(value: Any?) {
+    add(value.toJsonValue())
+}
+
 // --- Null-safe Accessors ---
 
 /*
