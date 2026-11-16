@@ -84,7 +84,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.eclipsesource.minimal-json</groupId>
+            <groupId>org.mth</groupId>
             <artifactId>minimal-json</artifactId>
             <version>1.0.0</version>
         </dependency>
