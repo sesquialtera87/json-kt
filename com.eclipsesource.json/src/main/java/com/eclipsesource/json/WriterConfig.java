@@ -22,6 +22,7 @@
 package com.eclipsesource.json;
 
 import java.io.Writer;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -32,6 +33,7 @@ public abstract class WriterConfig {
   /**
    * Write JSON in its minimal form, without any additional whitespace. This is the default.
    */
+  @NotNull
   public static WriterConfig MINIMAL = new WriterConfig() {
     @Override
     JsonWriter createWriter(Writer writer) {
@@ -43,6 +45,7 @@ public abstract class WriterConfig {
    * Write JSON in pretty-print, with each value on a separate line and an indentation of two
    * spaces.
    */
+  @NotNull
   public static WriterConfig PRETTY_PRINT = PrettyPrint.indentWithSpaces(2);
 
   abstract JsonWriter createWriter(Writer writer);

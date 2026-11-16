@@ -21,6 +21,7 @@
  ******************************************************************************/
 package com.eclipsesource.json;
 
+import org.jetbrains.annotations.NotNull;
 
 /**
  * An immutable object that represents a location in the parsed text.
@@ -49,6 +50,7 @@ public class Location {
   }
 
   @Override
+  @NotNull
   public String toString() {
     return line + ":" + column;
   }

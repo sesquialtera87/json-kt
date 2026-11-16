@@ -21,6 +21,8 @@
  ******************************************************************************/
 package com.eclipsesource.json;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * An unchecked exception to indicate that an input does not qualify as valid JSON.
  */
@@ -38,6 +40,7 @@ public class ParseException extends RuntimeException {
      *
      * @return the error location
      */
+    @NotNull
     public Location getLocation() {
         return location;
     }

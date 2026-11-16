@@ -123,6 +123,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param object the JsonObject for which an unmodifiable JsonObject is to be returned
      * @return an unmodifiable view of the specified JsonObject
      */
+    @NotNull
     public static JsonObject unmodifiableObject(@NotNull JsonObject object) {
         return new JsonObject(object, true);
     }
@@ -143,6 +144,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value of the member to add
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject add(@NotNull String name, int value) {
         add(name, Json.value(value));
         return this;
@@ -164,6 +166,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value of the member to add
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject add(@NotNull String name, long value) {
         add(name, Json.value(value));
         return this;
@@ -185,6 +188,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value of the member to add
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject add(@NotNull String name, float value) {
         add(name, Json.value(value));
         return this;
@@ -206,6 +210,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value of the member to add
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject add(@NotNull String name, double value) {
         add(name, Json.value(value));
         return this;
@@ -227,6 +232,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value of the member to add
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject add(@NotNull String name, boolean value) {
         add(name, Json.value(value));
         return this;
@@ -248,6 +254,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value of the member to add
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject add(@NotNull String name, @Nullable String value) {
         add(name, Json.value(value));
         return this;
@@ -269,6 +276,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value of the member to add, must not be <code>null</code>
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject add(@NotNull String name, @NotNull JsonValue value) {
         if (name == null) {
             throw new NullPointerException("name is null");
@@ -297,6 +305,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value to set to the member
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject set(@NotNull String name, int value) {
         set(name, Json.value(value));
         return this;
@@ -317,6 +326,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value to set to the member
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject set(@NotNull String name, long value) {
         set(name, Json.value(value));
         return this;
@@ -337,6 +347,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value of the member to add
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject set(@NotNull String name, float value) {
         set(name, Json.value(value));
         return this;
@@ -357,6 +368,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value of the member to add
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject set(@NotNull String name, double value) {
         set(name, Json.value(value));
         return this;
@@ -377,6 +389,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value of the member to add
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject set(@NotNull String name, boolean value) {
         set(name, Json.value(value));
         return this;
@@ -397,6 +410,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value of the member to add
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject set(@NotNull String name, @Nullable String value) {
         set(name, Json.value(value));
         return this;
@@ -416,6 +430,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param value the value of the member to add, must not be <code>null</code>
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject set(@NotNull String name, @NotNull JsonValue value) {
         if (name == null) {
             throw new NullPointerException("name is null");
@@ -442,6 +457,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param name the name of the member to remove
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject remove(@NotNull String name) {
         if (name == null) {
             throw new NullPointerException("name is null");
@@ -475,6 +491,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @param object the object to merge
      * @return the object itself, to enable method chaining
      */
+    @NotNull
     public JsonObject merge(@NotNull JsonObject object) {
         if (object == null) {
             throw new NullPointerException("object is null");
@@ -629,6 +646,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      *
      * @return a list of the names in this object
      */
+    @NotNull
     public List<String> names() {
         return Collections.unmodifiableList(names);
     }
@@ -638,6 +656,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      *
      * @return a sequential {@code Stream} over the {@code Member} elements in this object
      */
+    @NotNull
     public Stream<Member> stream() {
         return StreamSupport.stream(this.spliterator(), false);
     }
@@ -647,6 +666,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      *
      * @return a possibly parallel {@code Stream} over the {@code Member} elements in this object
      */
+    @NotNull
     public Stream<Member> parallelStream() {
         return StreamSupport.stream(this.spliterator(), true);
     }
@@ -658,6 +678,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      * @return an iterator over the members of this object
      */
     @Override
+    @NotNull
     public Iterator<Member> iterator() {
         final Iterator<String> namesIterator = names.iterator();
         final Iterator<JsonValue> valuesIterator = values.iterator();
@@ -705,6 +726,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
     }
 
     @Override
+    @NotNull
     public JsonObject asObject() {
         return this;
     }
@@ -772,6 +794,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
          *
          * @return the name of this member, never <code>null</code>
          */
+        @NotNull
         public String getName() {
             return name;
         }
@@ -781,6 +804,7 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
          *
          * @return the value of this member, never <code>null</code>
          */
+        @NotNull
         public JsonValue getValue() {
             return value;
         }

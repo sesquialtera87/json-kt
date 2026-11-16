@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.Writer;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -143,6 +144,7 @@ public abstract class JsonValue implements Serializable {
      * @return a JSONObject for this value
      * @throws UnsupportedOperationException if this value is not a JSON object
      */
+    @NotNull
     public JsonObject asObject() {
         throw new UnsupportedOperationException("Not an object: " + this);
     }
@@ -154,6 +156,7 @@ public abstract class JsonValue implements Serializable {
      * @return a JSONArray for this value
      * @throws UnsupportedOperationException if this value is not a JSON array
      */
+    @NotNull
     public JsonArray asArray() {
         throw new UnsupportedOperationException("Not an array: " + this);
     }
@@ -229,6 +232,7 @@ public abstract class JsonValue implements Serializable {
      * @return the string represented by this value
      * @throws UnsupportedOperationException if this value is not a JSON string
      */
+    @NotNull
     public String asString() {
         throw new UnsupportedOperationException("Not a string: " + this);
     }
@@ -254,7 +258,7 @@ public abstract class JsonValue implements Serializable {
      * @param writer the writer to write this value to
      * @throws IOException if an I/O error occurs in the writer
      */
-    public void writeTo(Writer writer) throws IOException {
+    public void writeTo(@NotNull Writer writer) throws IOException {
         writeTo(writer, WriterConfig.MINIMAL);
     }
 
@@ -268,7 +272,7 @@ public abstract class JsonValue implements Serializable {
      * @param config a configuration that controls the formatting or <code>null</code> for the minimal form
      * @throws IOException if an I/O error occurs in the writer
      */
-    public void writeTo(Writer writer, WriterConfig config) throws IOException {
+    public void writeTo(@NotNull Writer writer, @NotNull WriterConfig config) throws IOException {
         if (writer == null) {
             throw new NullPointerException("writer is null");
         }
@@ -288,6 +292,7 @@ public abstract class JsonValue implements Serializable {
      * @return a JSON string that represents this value
      */
     @Override
+    @NotNull
     public String toString() {
         return toString(WriterConfig.MINIMAL);
     }
@@ -298,7 +303,8 @@ public abstract class JsonValue implements Serializable {
      * @param config a configuration that controls the formatting or <code>null</code> for the minimal form
      * @return a JSON string that represents this value
      */
-    public String toString(WriterConfig config) {
+    @NotNull
+    public String toString(@NotNull WriterConfig config) {
         StringWriter writer = new StringWriter();
         try {
             writeTo(writer, config);

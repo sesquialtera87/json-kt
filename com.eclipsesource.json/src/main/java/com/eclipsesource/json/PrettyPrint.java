@@ -24,6 +24,7 @@ package com.eclipsesource.json;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -47,6 +48,7 @@ public class PrettyPrint extends WriterConfig {
    *
    * @return A PrettyPrint instance for wrapped mode with tab indentation
    */
+  @NotNull
   public static PrettyPrint singleLine() {
     return new PrettyPrint(null);
   }
@@ -58,6 +60,7 @@ public class PrettyPrint extends WriterConfig {
    *          the number of spaces to use
    * @return A PrettyPrint instance for wrapped mode with spaces indentation
    */
+  @NotNull
   public static PrettyPrint indentWithSpaces(int number) {
     if (number < 0) {
       throw new IllegalArgumentException("number is negative");
@@ -72,6 +75,7 @@ public class PrettyPrint extends WriterConfig {
    *
    * @return A PrettyPrint instance for single-line mode
    */
+  @NotNull
   public static PrettyPrint indentWithTabs() {
     return new PrettyPrint(new char[] {'\t'});
   }

@@ -62,16 +62,19 @@ public final class Json {
   /**
    * Represents the JSON literal <code>null</code>.
    */
+  @NotNull
   public static final JsonValue NULL = new JsonLiteral("null");
 
   /**
    * Represents the JSON literal <code>true</code>.
    */
+  @NotNull
   public static final JsonValue TRUE = new JsonLiteral("true");
 
   /**
    * Represents the JSON literal <code>false</code>.
    */
+  @NotNull
   public static final JsonValue FALSE = new JsonLiteral("false");
 
   /**
@@ -81,6 +84,7 @@ public final class Json {
    *          the value to get a JSON representation for
    * @return a JSON value that represents the given value
    */
+  @NotNull
   public static JsonValue value(int value) {
     return new JsonNumber(Integer.toString(value, 10));
   }
@@ -92,6 +96,7 @@ public final class Json {
    *          the value to get a JSON representation for
    * @return a JSON value that represents the given value
    */
+  @NotNull
   public static JsonValue value(long value) {
     return new JsonNumber(Long.toString(value, 10));
   }
@@ -103,6 +108,7 @@ public final class Json {
    *          the value to get a JSON representation for
    * @return a JSON value that represents the given value
    */
+  @NotNull
   public static JsonValue value(float value) {
     if (Float.isInfinite(value) || Float.isNaN(value)) {
       throw new IllegalArgumentException("Infinite and NaN values not permitted in JSON");
@@ -117,6 +123,7 @@ public final class Json {
    *          the value to get a JSON representation for
    * @return a JSON value that represents the given value
    */
+  @NotNull
   public static JsonValue value(double value) {
     if (Double.isInfinite(value) || Double.isNaN(value)) {
       throw new IllegalArgumentException("Infinite and NaN values not permitted in JSON");
@@ -131,6 +138,7 @@ public final class Json {
    *          the string to get a JSON representation for
    * @return a JSON value that represents the given string
    */
+  @NotNull
   public static JsonValue value(@Nullable String string) {
     return string == null ? NULL : new JsonString(string);
   }
@@ -142,6 +150,7 @@ public final class Json {
    *          the value to get a JSON representation for
    * @return a JSON value that represents the given value
    */
+  @NotNull
   public static JsonValue value(boolean value) {
     return value ? TRUE : FALSE;
   }
@@ -152,6 +161,7 @@ public final class Json {
    *
    * @return a new empty JSON array
    */
+  @NotNull
   public static JsonArray array() {
     return new JsonArray();
   }
@@ -164,7 +174,8 @@ public final class Json {
    *          the values to be included in the new JSON array
    * @return a new JSON array that contains the given values
    */
-  public static JsonArray array(int... values) {
+  @NotNull
+  public static JsonArray array(@NotNull int... values) {
     if (values == null) {
       throw new NullPointerException("values is null");
     }
@@ -183,7 +194,8 @@ public final class Json {
    *          the values to be included in the new JSON array
    * @return a new JSON array that contains the given values
    */
-  public static JsonArray array(long... values) {
+  @NotNull
+  public static JsonArray array(@NotNull long... values) {
     if (values == null) {
       throw new NullPointerException("values is null");
     }
@@ -202,7 +214,8 @@ public final class Json {
    *          the values to be included in the new JSON array
    * @return a new JSON array that contains the given values
    */
-  public static JsonArray array(float... values) {
+  @NotNull
+  public static JsonArray array(@NotNull float... values) {
     if (values == null) {
       throw new NullPointerException("values is null");
     }
@@ -221,7 +234,8 @@ public final class Json {
    *          the values to be included in the new JSON array
    * @return a new JSON array that contains the given values
    */
-  public static JsonArray array(double... values) {
+  @NotNull
+  public static JsonArray array(@NotNull double... values) {
     if (values == null) {
       throw new NullPointerException("values is null");
     }
@@ -240,7 +254,8 @@ public final class Json {
    *          the values to be included in the new JSON array
    * @return a new JSON array that contains the given values
    */
-  public static JsonArray array(boolean... values) {
+  @NotNull
+  public static JsonArray array(@NotNull boolean... values) {
     if (values == null) {
       throw new NullPointerException("values is null");
     }
@@ -258,7 +273,8 @@ public final class Json {
    *          the strings to be included in the new JSON array
    * @return a new JSON array that contains the given strings
    */
-  public static JsonArray array(String... strings) {
+  @NotNull
+  public static JsonArray array(@NotNull String... strings) {
     if (strings == null) {
       throw new NullPointerException("values is null");
     }
@@ -275,6 +291,7 @@ public final class Json {
    *
    * @return a new empty JSON object
    */
+  @NotNull
   public static JsonObject object() {
     return new JsonObject();
   }
@@ -289,6 +306,7 @@ public final class Json {
    * @throws ParseException
    *           if the input is not valid JSON
    */
+  @NotNull
   public static JsonValue parse(@NotNull String string) {
     if (string == null) {
       throw new NullPointerException("string is null");
@@ -314,7 +332,8 @@ public final class Json {
    * @throws ParseException
    *           if the input is not valid JSON
    */
-  public static JsonValue parse(Reader reader) throws IOException {
+  @NotNull
+  public static JsonValue parse(@NotNull Reader reader) throws IOException {
     if (reader == null) {
       throw new NullPointerException("reader is null");
     }
