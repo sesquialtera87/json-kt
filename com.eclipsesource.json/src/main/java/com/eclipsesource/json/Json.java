@@ -23,6 +23,8 @@ package com.eclipsesource.json;
 
 import java.io.IOException;
 import java.io.Reader;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 /**
@@ -129,7 +131,7 @@ public final class Json {
    *          the string to get a JSON representation for
    * @return a JSON value that represents the given string
    */
-  public static JsonValue value(String string) {
+  public static JsonValue value(@Nullable String string) {
     return string == null ? NULL : new JsonString(string);
   }
 
@@ -287,7 +289,7 @@ public final class Json {
    * @throws ParseException
    *           if the input is not valid JSON
    */
-  public static JsonValue parse(String string) {
+  public static JsonValue parse(@NotNull String string) {
     if (string == null) {
       throw new NullPointerException("string is null");
     }

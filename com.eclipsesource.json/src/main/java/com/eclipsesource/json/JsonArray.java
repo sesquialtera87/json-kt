@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 /**
@@ -77,7 +79,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      *
      * @param array the JsonArray to get the initial contents from, must not be <code>null</code>
      */
-    public JsonArray(JsonArray array) {
+    public JsonArray(@NotNull JsonArray array) {
         this(array, false);
     }
 
@@ -103,7 +105,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * @param array the JsonArray for which an unmodifiable JsonArray is to be returned
      * @return an unmodifiable view of the specified JsonArray
      */
-    public static JsonArray unmodifiableArray(JsonArray array) {
+    public static JsonArray unmodifiableArray(@NotNull JsonArray array) {
         return new JsonArray(array, true);
     }
 
@@ -173,7 +175,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * @param value the string to add to the array
      * @return the array itself, to enable method chaining
      */
-    public JsonArray add(String value) {
+    public JsonArray add(@Nullable String value) {
         values.add(Json.value(value));
         return this;
     }
@@ -184,7 +186,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * @param value the JsonValue to add to the array, must not be <code>null</code>
      * @return the array itself, to enable method chaining
      */
-    public JsonArray add(JsonValue value) {
+    public JsonArray add(@NotNull JsonValue value) {
         if (value == null) {
             throw new NullPointerException("value is null");
         }
@@ -277,7 +279,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * @throws IndexOutOfBoundsException if the index is out of range, i.e. <code>index &lt; 0</code> or
      *                                   <code>index &gt;= size</code>
      */
-    public JsonArray set(int index, String value) {
+    public JsonArray set(int index, @Nullable String value) {
         values.set(index, Json.value(value));
         return this;
     }
@@ -291,7 +293,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * @throws IndexOutOfBoundsException if the index is out of range, i.e. <code>index &lt; 0</code> or
      *                                   <code>index &gt;= size</code>
      */
-    public JsonArray set(int index, JsonValue value) {
+    public JsonArray set(int index, @NotNull JsonValue value) {
         if (value == null) {
             throw new NullPointerException("value is null");
         }
