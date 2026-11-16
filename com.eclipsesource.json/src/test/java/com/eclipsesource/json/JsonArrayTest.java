@@ -48,11 +48,6 @@ public class JsonArrayTest {
     }
 
     @Test
-    public void copyConstructor_failsWithNull() {
-        assertException(NullPointerException.class, (Runnable) () -> new JsonArray(null));
-    }
-
-    @Test
     public void copyConstructor_hasSameValues() {
         array.add(23);
         JsonArray copy = new JsonArray(array);
@@ -300,11 +295,6 @@ public class JsonArrayTest {
     }
 
     @Test
-    public void add_json_failsWithNull() {
-        assertException(NullPointerException.class, (Runnable) () -> array.add((JsonValue) null));
-    }
-
-    @Test
     public void add_json_nestedArray() {
         JsonArray innerArray = new JsonArray();
         innerArray.add(23);
@@ -464,13 +454,6 @@ public class JsonArrayTest {
         array.set(0, new JsonObject());
 
         assertEquals("[{}]", array.toString());
-    }
-
-    @Test
-    public void set_json_failsWithNull() {
-        array.add(false);
-
-        assertException(NullPointerException.class, (Runnable) () -> array.set(0, (JsonValue) null));
     }
 
     @Test

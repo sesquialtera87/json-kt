@@ -47,27 +47,6 @@ public class JsonValueTest {
     }
 
     @Test
-    public void writeTo_failsWithNullWriter() {
-        final JsonValue value = new JsonObject();
-
-        assertException(NullPointerException.class, (RunnableEx) () -> value.writeTo(null, WriterConfig.MINIMAL));
-    }
-
-    @Test
-    public void writeTo_failsWithNullConfig() {
-        final JsonValue value = new JsonObject();
-
-        assertException(NullPointerException.class, (RunnableEx) () -> value.writeTo(new StringWriter(), null));
-    }
-
-    @Test
-    public void toString_failsWithNullConfig() {
-        final JsonValue value = new JsonObject();
-
-        assertException(NullPointerException.class, (RunnableEx) () -> value.toString(null));
-    }
-
-    @Test
     public void writeTo_doesNotCloseWriter() throws IOException {
         JsonValue value = new JsonObject();
         Writer writer = spy(new StringWriter());

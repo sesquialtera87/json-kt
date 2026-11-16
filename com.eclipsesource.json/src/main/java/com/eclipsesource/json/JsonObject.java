@@ -459,9 +459,6 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      */
     @NotNull
     public JsonObject remove(@NotNull String name) {
-        if (name == null) {
-            throw new NullPointerException("name is null");
-        }
         int index = indexOf(name);
         if (index != -1) {
             table.remove(index);
@@ -493,9 +490,6 @@ public class JsonObject extends JsonValue implements Iterable<Member> {
      */
     @NotNull
     public JsonObject merge(@NotNull JsonObject object) {
-        if (object == null) {
-            throw new NullPointerException("object is null");
-        }
         for (Member member : object) {
             this.set(member.name, member.value);
         }

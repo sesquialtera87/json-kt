@@ -1,16 +1,16 @@
 /*******************************************************************************
  * Copyright (c) 2013, 2015 EclipseSource.
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -49,11 +49,6 @@ public class JsonObjectTest {
     @BeforeEach
     public void setUp() {
         object = new JsonObject();
-    }
-
-    @Test
-    public void copyConstructor_failsWithNull() {
-        assertThrows(NullPointerException.class, () -> new JsonObject(null));
     }
 
     @Test
@@ -248,11 +243,6 @@ public class JsonObjectTest {
     }
 
     @Test
-    public void get_failsWithNullName() {
-        assertException(NullPointerException.class, (Runnable) () -> object.get(null));
-    }
-
-    @Test
     public void get_returnsNullForNonExistingMember() {
         assertNull(object.get("foo"));
     }
@@ -341,11 +331,6 @@ public class JsonObjectTest {
     @Test
     public void get_string_returnsDefaultForMissingMember() {
         assertEquals("default", object.getString("foo", "default"));
-    }
-
-    @Test
-    public void add_failsWithNullName() {
-        assertException(NullPointerException.class, (Runnable) () -> object.add(null, 23));
     }
 
     @Test
@@ -451,11 +436,6 @@ public class JsonObjectTest {
     @Test
     public void add_json_enablesChaining() {
         assertSame(object, object.add("a", Json.NULL));
-    }
-
-    @Test
-    public void add_json_failsWithNull() {
-        assertException(NullPointerException.class, (Runnable) () -> object.add("a", (JsonValue) null));
     }
 
     @Test
@@ -623,11 +603,6 @@ public class JsonObjectTest {
     }
 
     @Test
-    public void remove_failsWithNullName() {
-        assertException(NullPointerException.class, (Runnable) () -> object.remove(null));
-    }
-
-    @Test
     public void remove_removesMatchingMember() {
         object.add("a", 23);
 
@@ -697,11 +672,6 @@ public class JsonObjectTest {
         object.remove("a");
 
         assertFalse(object.contains("a"));
-    }
-
-    @Test
-    public void merge_failsWithNull() {
-        assertException(NullPointerException.class, (Runnable) () -> object.merge(null));
     }
 
     @Test

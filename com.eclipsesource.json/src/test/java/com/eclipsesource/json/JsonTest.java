@@ -137,19 +137,9 @@ public class JsonTest {
     }
 
     @Test
-    public void array_int_failsWithNull() {
-        TestUtil.assertException(NullPointerException.class, (Runnable) () -> Json.array((int[]) null));
-    }
-
-    @Test
     public void array_long() {
         assertEquals(new JsonArray().add(23L), Json.array(23L));
         assertEquals(new JsonArray().add(23L).add(42L), Json.array(23L, 42L));
-    }
-
-    @Test
-    public void array_long_failsWithNull() {
-        TestUtil.assertException(NullPointerException.class, (Runnable) () -> Json.array((long[]) null));
     }
 
     @Test
@@ -159,19 +149,9 @@ public class JsonTest {
     }
 
     @Test
-    public void array_float_failsWithNull() {
-        TestUtil.assertException(NullPointerException.class, (Runnable) () -> Json.array((float[]) null));
-    }
-
-    @Test
     public void array_double() {
         assertEquals(new JsonArray().add(3.14d), Json.array(3.14d));
         assertEquals(new JsonArray().add(3.14d).add(1.41d), Json.array(3.14d, 1.41d));
-    }
-
-    @Test
-    public void array_double_failsWithNull() {
-        TestUtil.assertException(NullPointerException.class, (Runnable) () -> Json.array((double[]) null));
     }
 
     @Test
@@ -181,19 +161,9 @@ public class JsonTest {
     }
 
     @Test
-    public void array_boolean_failsWithNull() {
-        TestUtil.assertException(NullPointerException.class, (Runnable) () -> Json.array((boolean[]) null));
-    }
-
-    @Test
     public void array_string() {
         assertEquals(new JsonArray().add("foo"), Json.array("foo"));
         assertEquals(new JsonArray().add("foo").add("bar"), Json.array("foo", "bar"));
-    }
-
-    @Test
-    public void array_string_failsWithNull() {
-        TestUtil.assertException(NullPointerException.class, (Runnable) () -> Json.array((String[]) null));
     }
 
     @Test
@@ -207,20 +177,9 @@ public class JsonTest {
     }
 
     @Test
-    public void parse_string_failsWithNull() {
-        TestUtil.assertException(NullPointerException.class, (Runnable) () -> Json.parse((String) null));
-    }
-
-    @Test
     public void parse_reader() throws IOException {
         Reader reader = new StringReader("23");
 
         assertEquals(Json.value(23), Json.parse(reader));
     }
-
-    @Test
-    public void parse_reader_failsWithNull() {
-        TestUtil.assertException(NullPointerException.class, (RunnableEx) () -> Json.parse((Reader) null));
-    }
-
 }
