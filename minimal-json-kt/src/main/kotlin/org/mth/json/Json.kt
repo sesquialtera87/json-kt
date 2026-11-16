@@ -6,6 +6,7 @@ import com.eclipsesource.json.Json
 import com.eclipsesource.json.JsonArray
 import com.eclipsesource.json.JsonObject
 import com.eclipsesource.json.JsonValue
+import com.eclipsesource.json.WriterConfig
 import java.math.BigDecimal
 import java.math.BigInteger
 
@@ -230,6 +231,30 @@ operator fun JsonObject.plusAssign(entry: Pair<String, Any?>) {
 operator fun JsonArray.plusAssign(value: Any?) {
     add(value.toJsonValue())
 }
+
+// --- Interop & I/O ---
+
+/**
+ * Returns a snapshot of this object as a [Map] from member names to values, in member order.
+ *
+ * Duplicate names collapse to a single entry holding the last value, as [JsonObject.get] does; the entry keeps the
+ * position of the first occurrence. Later changes to this object are not reflected in the returned map.
+ */
+fun JsonObject.toMap(): Map<String, JsonValue> {
+    val map = LinkedHashMap<String, JsonValue>()
+    for ((name, value) in this) map[name] = value
+    return map
+}
+
+/**
+ * Parses this string as JSON.
+ *
+ * @throws com.eclipsesource.json.ParseException if the string is not valid JSON.
+ */
+fun String.parseJson(): JsonValue = Json.parse(this)
+
+/** Returns this value as indented, multi-line JSON text. */
+fun JsonValue.toPrettyString(): String = toString(WriterConfig.PRETTY_PRINT)
 
 // --- Null-safe Accessors ---
 
