@@ -15,7 +15,7 @@ import java.math.BigInteger
  * builder can no longer be called implicitly.
  */
 @DslMarker
-annotation class JsonDsl
+public annotation class JsonDsl
 
 /**
  * Converts this value to a [JsonValue].
@@ -25,7 +25,7 @@ annotation class JsonDsl
  *
  * @throws IllegalArgumentException for any other type, or for a [Map] with a non-[String] key.
  */
-fun Any?.toJsonValue(): JsonValue = when (this) {
+public fun Any?.toJsonValue(): JsonValue = when (this) {
     null -> Json.NULL
     is JsonValue -> this
     is String -> Json.value(this)
@@ -54,7 +54,7 @@ fun Any?.toJsonValue(): JsonValue = when (this) {
  * @param init A lambda with receiver block initialization on [JsonObjectBuilder].
  * @return A fully constructed [JsonObject].
  */
-inline fun jsonObject(init: JsonObjectBuilder.() -> Unit): JsonObject {
+public inline fun jsonObject(init: JsonObjectBuilder.() -> Unit): JsonObject {
     return JsonObjectBuilder().apply(init).build()
 }
 
@@ -64,7 +64,7 @@ inline fun jsonObject(init: JsonObjectBuilder.() -> Unit): JsonObject {
  * @param init A lambda with receiver block initialization on [JsonArrayBuilder].
  * @return A fully constructed [JsonArray].
  */
-inline fun jsonArray(init: JsonArrayBuilder.() -> Unit): JsonArray {
+public inline fun jsonArray(init: JsonArrayBuilder.() -> Unit): JsonArray {
     return JsonArrayBuilder().apply(init).build()
 }
 
@@ -75,7 +75,7 @@ inline fun jsonArray(init: JsonArrayBuilder.() -> Unit): JsonArray {
  *
  * @throws IllegalArgumentException if a value cannot be represented as JSON.
  */
-fun jsonObjectOf(vararg pairs: Pair<String, Any?>): JsonObject {
+public fun jsonObjectOf(vararg pairs: Pair<String, Any?>): JsonObject {
     val json = JsonObject()
     for ((name, value) in pairs) json.add(name, value.toJsonValue())
     return json
@@ -86,7 +86,7 @@ fun jsonObjectOf(vararg pairs: Pair<String, Any?>): JsonObject {
  *
  * @throws IllegalArgumentException if a value cannot be represented as JSON.
  */
-fun jsonArrayOf(vararg values: Any?): JsonArray {
+public fun jsonArrayOf(vararg values: Any?): JsonArray {
     val json = JsonArray()
     for (value in values) json.add(value.toJsonValue())
     return json
@@ -98,22 +98,22 @@ fun jsonArrayOf(vararg values: Any?): JsonArray {
  *
  * @throws IllegalArgumentException if a value cannot be represented as JSON.
  */
-fun Map<String, *>.toJsonObject(): JsonObject = toJsonValue().asObject()
+public fun Map<String, *>.toJsonObject(): JsonObject = toJsonValue().asObject()
 
 /**
  * Converts this iterable to a [JsonArray], converting each element with [toJsonValue].
  *
  * @throws IllegalArgumentException if an element cannot be represented as JSON.
  */
-fun Iterable<*>.toJsonArray(): JsonArray = toJsonValue().asArray()
+public fun Iterable<*>.toJsonArray(): JsonArray = toJsonValue().asArray()
 
 /**
  * A builder class implementing the Domain-Specific Language (DSL) for declarative [JsonObject] construction.
  */
 @JsonDsl
-class JsonObjectBuilder {
+public class JsonObjectBuilder {
     @PublishedApi
-    internal val jsonObject = JsonObject()
+    internal val jsonObject: JsonObject = JsonObject()
 
     /**
      * Appends a member named [name], converting [value] with [toJsonValue].
@@ -122,12 +122,12 @@ class JsonObjectBuilder {
      *
      * @throws IllegalArgumentException if [value] cannot be represented as JSON.
      */
-    fun add(name: String, value: Any?) {
+    public fun add(name: String, value: Any?) {
         jsonObject.add(name, value.toJsonValue())
     }
 
     /** Appends a member named by this [String], see [add]. */
-    infix fun String.to(value: Any?) {
+    public infix fun String.to(value: Any?) {
         add(this, value)
     }
 
@@ -136,7 +136,7 @@ class JsonObjectBuilder {
      *
      * @param inlineOptions A lambda block configuration executing on a new child [JsonObjectBuilder].
      */
-    inline infix fun String.toObject(inlineOptions: JsonObjectBuilder.() -> Unit) {
+    public inline infix fun String.toObject(inlineOptions: JsonObjectBuilder.() -> Unit) {
         this to jsonObject(inlineOptions)
     }
 
@@ -145,7 +145,7 @@ class JsonObjectBuilder {
      *
      * @param inlineOptions A lambda block configuration executing on a new child [JsonArrayBuilder].
      */
-    inline infix fun String.toArray(inlineOptions: JsonArrayBuilder.() -> Unit) {
+    public inline infix fun String.toArray(inlineOptions: JsonArrayBuilder.() -> Unit) {
         this to jsonArray(inlineOptions)
     }
 
@@ -154,23 +154,23 @@ class JsonObjectBuilder {
      *
      * @return The underlying [JsonObject].
      */
-    fun build(): JsonObject = jsonObject
+    public fun build(): JsonObject = jsonObject
 }
 
 /**
  * A builder class implementing the Domain-Specific Language (DSL) for declarative [JsonArray] construction.
  */
 @JsonDsl
-class JsonArrayBuilder {
+public class JsonArrayBuilder {
     @PublishedApi
-    internal val jsonArray = JsonArray()
+    internal val jsonArray: JsonArray = JsonArray()
 
     /**
      * Appends [value] to the array, converting it with [toJsonValue].
      *
      * @throws IllegalArgumentException if [value] cannot be represented as JSON.
      */
-    fun add(value: Any?) {
+    public fun add(value: Any?) {
         jsonArray.add(value.toJsonValue())
     }
 
@@ -179,7 +179,7 @@ class JsonArrayBuilder {
      *
      * @param inlineOptions A lambda block configuration executing on a new child [JsonObjectBuilder].
      */
-    inline fun addObject(inlineOptions: JsonObjectBuilder.() -> Unit) {
+    public inline fun addObject(inlineOptions: JsonObjectBuilder.() -> Unit) {
         jsonArray.add(jsonObject(inlineOptions))
     }
 
@@ -188,7 +188,7 @@ class JsonArrayBuilder {
      *
      * @param inlineOptions A lambda block configuration executing on a new child [JsonArrayBuilder].
      */
-    inline fun addArray(inlineOptions: JsonArrayBuilder.() -> Unit) {
+    public inline fun addArray(inlineOptions: JsonArrayBuilder.() -> Unit) {
         jsonArray.add(jsonArray(inlineOptions))
     }
 
@@ -197,16 +197,16 @@ class JsonArrayBuilder {
      *
      * @return The underlying [JsonArray].
      */
-    fun build(): JsonArray = jsonArray
+    public fun build(): JsonArray = jsonArray
 }
 
 // --- Destructuring Operations ---
 
 /** Destructuring component operator providing the member field key/name. */
-operator fun JsonObject.Member.component1(): String = this.name
+public operator fun JsonObject.Member.component1(): String = this.name
 
 /** Destructuring component operator providing the member underlying [JsonValue]. */
-operator fun JsonObject.Member.component2(): JsonValue = this.value
+public operator fun JsonObject.Member.component2(): JsonValue = this.value
 
 // --- Append Operators ---
 
@@ -217,7 +217,7 @@ operator fun JsonObject.Member.component2(): JsonValue = this.value
  *
  * @throws IllegalArgumentException if the value cannot be represented as JSON.
  */
-operator fun JsonObject.plusAssign(entry: Pair<String, Any?>) {
+public operator fun JsonObject.plusAssign(entry: Pair<String, Any?>) {
     add(entry.first, entry.second.toJsonValue())
 }
 
@@ -228,7 +228,7 @@ operator fun JsonObject.plusAssign(entry: Pair<String, Any?>) {
  *
  * @throws IllegalArgumentException if the value cannot be represented as JSON.
  */
-operator fun JsonArray.plusAssign(value: Any?) {
+public operator fun JsonArray.plusAssign(value: Any?) {
     add(value.toJsonValue())
 }
 
@@ -240,7 +240,7 @@ operator fun JsonArray.plusAssign(value: Any?) {
  * Duplicate names collapse to a single entry holding the last value, as [JsonObject.get] does; the entry keeps the
  * position of the first occurrence. Later changes to this object are not reflected in the returned map.
  */
-fun JsonObject.toMap(): Map<String, JsonValue> {
+public fun JsonObject.toMap(): Map<String, JsonValue> {
     val map = LinkedHashMap<String, JsonValue>()
     for ((name, value) in this) map[name] = value
     return map
@@ -251,10 +251,10 @@ fun JsonObject.toMap(): Map<String, JsonValue> {
  *
  * @throws com.eclipsesource.json.ParseException if the string is not valid JSON.
  */
-fun String.parseJson(): JsonValue = Json.parse(this)
+public fun String.parseJson(): JsonValue = Json.parse(this)
 
 /** Returns this value as indented, multi-line JSON text. */
-fun JsonValue.toPrettyString(): String = toString(WriterConfig.PRETTY_PRINT)
+public fun JsonValue.toPrettyString(): String = toString(WriterConfig.PRETTY_PRINT)
 
 // --- Null-safe Accessors ---
 
@@ -266,34 +266,34 @@ fun JsonValue.toPrettyString(): String = toString(WriterConfig.PRETTY_PRINT)
  */
 
 /** Returns this value as a [String] if it is a JSON string, `null` otherwise. */
-fun JsonValue?.stringOrNull(): String? = if (this != null && isString) asString() else null
+public fun JsonValue?.stringOrNull(): String? = if (this != null && isString) asString() else null
 
 /** Returns this value as a [Boolean] if it is a JSON boolean, `null` otherwise. */
-fun JsonValue?.booleanOrNull(): Boolean? = if (this != null && isBoolean) asBoolean() else null
+public fun JsonValue?.booleanOrNull(): Boolean? = if (this != null && isBoolean) asBoolean() else null
 
 /** Returns this value as an [Int] if it is a JSON number that fits, `null` otherwise. */
-fun JsonValue?.intOrNull(): Int? = numberLiteral()?.toIntOrNull()
+public fun JsonValue?.intOrNull(): Int? = numberLiteral()?.toIntOrNull()
 
 /** Returns this value as a [Long] if it is a JSON number that fits, `null` otherwise. */
-fun JsonValue?.longOrNull(): Long? = numberLiteral()?.toLongOrNull()
+public fun JsonValue?.longOrNull(): Long? = numberLiteral()?.toLongOrNull()
 
 /** Returns this value as a [Float] if it is a JSON number, `null` otherwise. */
-fun JsonValue?.floatOrNull(): Float? = numberLiteral()?.toFloatOrNull()
+public fun JsonValue?.floatOrNull(): Float? = numberLiteral()?.toFloatOrNull()
 
 /** Returns this value as a [Double] if it is a JSON number, `null` otherwise. */
-fun JsonValue?.doubleOrNull(): Double? = numberLiteral()?.toDoubleOrNull()
+public fun JsonValue?.doubleOrNull(): Double? = numberLiteral()?.toDoubleOrNull()
 
 /** Returns this value as an exact [BigDecimal] if it is a JSON number, `null` otherwise. */
-fun JsonValue?.bigDecimalOrNull(): BigDecimal? = numberLiteral()?.toBigDecimalOrNull()
+public fun JsonValue?.bigDecimalOrNull(): BigDecimal? = numberLiteral()?.toBigDecimalOrNull()
 
 /** Returns this value as an exact [BigInteger] if it is a JSON integer literal, `null` otherwise. */
-fun JsonValue?.bigIntegerOrNull(): BigInteger? = numberLiteral()?.toBigIntegerOrNull()
+public fun JsonValue?.bigIntegerOrNull(): BigInteger? = numberLiteral()?.toBigIntegerOrNull()
 
 /** Returns this value as a [JsonObject] if it is a JSON object, `null` otherwise. */
-fun JsonValue?.objectOrNull(): JsonObject? = if (this != null && isObject) asObject() else null
+public fun JsonValue?.objectOrNull(): JsonObject? = if (this != null && isObject) asObject() else null
 
 /** Returns this value as a [JsonArray] if it is a JSON array, `null` otherwise. */
-fun JsonValue?.arrayOrNull(): JsonArray? = if (this != null && isArray) asArray() else null
+public fun JsonValue?.arrayOrNull(): JsonArray? = if (this != null && isArray) asArray() else null
 
 /** The literal text of a JSON number, or `null` if this is not a JSON number. */
 private fun JsonValue?.numberLiteral(): String? = if (this != null && isNumber) toString() else null
@@ -309,7 +309,7 @@ private fun JsonValue?.numberLiteral(): String? = if (this != null && isNumber) 
  * Only applies when the static type of the receiver is [JsonValue] or nullable: on a non-null [JsonObject] the
  * member `get` is used instead.
  */
-operator fun JsonValue?.get(name: String): JsonValue? = objectOrNull()?.get(name)
+public operator fun JsonValue?.get(name: String): JsonValue? = objectOrNull()?.get(name)
 
 /**
  * Returns the element at [index] if this value is a JSON array and the index is in range, `null` otherwise.
@@ -317,7 +317,7 @@ operator fun JsonValue?.get(name: String): JsonValue? = objectOrNull()?.get(name
  * Only applies when the static type of the receiver is [JsonValue] or nullable: on a non-null [JsonArray] the
  * member `get` is used instead, which throws [IndexOutOfBoundsException] for an invalid index.
  */
-operator fun JsonValue?.get(index: Int): JsonValue? =
+public operator fun JsonValue?.get(index: Int): JsonValue? =
     arrayOrNull()?.let { if (index in 0 until it.size()) it.get(index) else null }
 
 // --- Reified Type Smart Casts ---
@@ -334,7 +334,7 @@ operator fun JsonValue?.get(index: Int): JsonValue? =
  * @return The mapped type representation of type [T], or `null` if conversion fails or if the value is null.
  * @throws IllegalArgumentException if [T] is not a supported type, whatever the value is.
  */
-inline fun <reified T> JsonValue?.asTypeOrNull(): T? = when (T::class) {
+public inline fun <reified T> JsonValue?.asTypeOrNull(): T? = when (T::class) {
     String::class -> stringOrNull()
     Int::class -> intOrNull()
     Long::class -> longOrNull()
