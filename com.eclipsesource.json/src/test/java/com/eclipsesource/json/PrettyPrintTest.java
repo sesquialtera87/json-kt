@@ -47,14 +47,14 @@ public class PrettyPrintTest {
     public void testIndentWithSpaces_emptyArray() throws IOException {
         new JsonArray().writeTo(output, indentWithSpaces(2));
 
-        assertEquals("[\n  \n]", output.toString());
+        assertEquals("[]", output.toString());
     }
 
     @Test
     public void testIndentWithSpaces_emptyObject() throws IOException {
         new JsonObject().writeTo(output, indentWithSpaces(2));
 
-        assertEquals("{\n  \n}", output.toString());
+        assertEquals("{}", output.toString());
     }
 
     @Test

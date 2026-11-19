@@ -89,6 +89,8 @@ public class PrettyPrint extends WriterConfig {
 
     private final char[] indentChars;
     private int indent;
+    // True right after '[' or '{': the line break is deferred until we know the container is not empty.
+    private boolean afterOpen;
 
     private PrettyPrintWriter(Writer writer, char[] indentChars) {
       super(writer);
@@ -96,16 +98,41 @@ public class PrettyPrint extends WriterConfig {
     }
 
     @Override
+    protected void writeLiteral(String value) throws IOException {
+      flushOpen();
+      super.writeLiteral(value);
+    }
+
+    @Override
+    protected void writeNumber(String string) throws IOException {
+      flushOpen();
+      super.writeNumber(string);
+    }
+
+    @Override
+    protected void writeString(String string) throws IOException {
+      flushOpen();
+      super.writeString(string);
+    }
+
+    @Override
+    protected void writeMemberName(String name) throws IOException {
+      flushOpen();
+      super.writeMemberName(name);
+    }
+
+    @Override
     protected void writeArrayOpen() throws IOException {
+      flushOpen();
       indent++;
       writer.write('[');
-      writeNewLine();
+      afterOpen = true;
     }
 
     @Override
     protected void writeArrayClose() throws IOException {
       indent--;
-      writeNewLine();
+      closeContainer();
       writer.write(']');
     }
 
@@ -119,15 +146,16 @@ public class PrettyPrint extends WriterConfig {
 
     @Override
     protected void writeObjectOpen() throws IOException {
+      flushOpen();
       indent++;
       writer.write('{');
-      writeNewLine();
+      afterOpen = true;
     }
 
     @Override
     protected void writeObjectClose() throws IOException {
       indent--;
-      writeNewLine();
+      closeContainer();
       writer.write('}');
     }
 
@@ -142,6 +170,22 @@ public class PrettyPrint extends WriterConfig {
       writer.write(',');
       if (!writeNewLine()) {
         writer.write(' ');
+      }
+    }
+
+    private void flushOpen() throws IOException {
+      if (afterOpen) {
+        afterOpen = false;
+        writeNewLine();
+      }
+    }
+
+    private void closeContainer() throws IOException {
+      if (afterOpen) {
+        // empty container: print it as "[]" or "{}"
+        afterOpen = false;
+      } else {
+        writeNewLine();
       }
     }
 
